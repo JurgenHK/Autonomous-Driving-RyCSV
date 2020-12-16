@@ -213,6 +213,7 @@ class line_detector:
         self.mask_interest_region()
         lines = self.lines_hough()
         self.average_lines(lines)
+        self.calculate_center()
         self.draw_lines()
  
     def update_from_ros(self, ros_img):
@@ -223,14 +224,27 @@ class line_detector:
         self.average_lines(lines)
         self.calculate_center()
         self.draw_lines()
+
+    def save_all_frames_to_file(self, route):
+        cv2.imwrite(route+'frame.png', cv2.cvtColor(self.frame, cv2.COLOR_BGR2RGB))
+        cv2.imwrite(route+'frame_gray.png', self.frame_gray)
+        cv2.imwrite(route+'frame_canny.png', self.frame_canny)
+        cv2.imwrite(route+'frame_region_interest.png', self.frame_mask)
+        cv2.imwrite(route+'frame_canny_croped.png', self.frame_masked)
+        cv2.imwrite(route+'frame_hough.png',cv2.cvtColor(self.frame_hough, cv2.COLOR_BGR2RGB))
+        cv2.imwrite(route+'frame_average.png', self.frame_raw_lines)
+        print(self.frame_detected)
+        cv2.imwrite(route+'frame_result.png', cv2.cvtColor(self.frame_detected, cv2.COLOR_BGR2RGB))
  
 #Test from saved IMG's
-""" if __name__ == "__main__":
+if __name__ == "__main__":
 
     detector = line_detector(False)
-    detector.image_name = "road_14.png"
+    detector.image_name = "road_16.png"
     detector.update_from_file()
-    detector.plot_all_frames() """
+    detector.save_all_frames_to_file('/home/jurgen/catkin_ws/src/Autonomous-Driving-RyCSV/tests/')
+    detector.plot_all_frames()
+
 
 
     

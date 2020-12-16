@@ -57,7 +57,7 @@ if __name__ == "__main__":
         k_vision = rospy.get_param('/motion_node/k_vision')
         k_th = rospy.get_param('/motion_node/k_th')
         #k_vision = 0.01
-        x = 0.8
+        x = 1.0
         y = np.mean(list_error_vision)*(-1)*k_vision
         th = np.mean(list_error_vision)*(-1)*k_th
         goal = [x,y,th]
