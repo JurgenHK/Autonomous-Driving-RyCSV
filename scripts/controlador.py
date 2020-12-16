@@ -145,21 +145,21 @@ class controller:
         #Control Law
         #Refer to: Roland Siegwart, Intro to autonomus mobile robots - Chap 3 (Control Law)
         if(self.error_x<0.05 and self.error_y<0.05):
-            v = 0                                               #Linear speed
+            #v = 0                                               #Linear speed
             w = -self.k_b * self.beta                      #Angular speed
             print("caso 1")
         else:
-            v = self.p * self.k_p                               #Linear speed
+            #v = self.p * self.k_p                               #Linear speed
             w = self.k_a * self.alpha + self.k_b * self.beta    #Angular speed
-            
-        self.v_out = v
-        self.w_out = w
 
         #Limit Speed (Saturation)
-        if np.abs(v) > self.cruise_lin: 
-            self.v_out = np.sign(v) * self.cruise_lin
+        #if np.abs(v) > self.cruise_lin: 
+        #    self.v_out = np.sign(v) * self.cruise_lin
         if np.abs(w) > self.cruise_ang:
             self.w_out = np.sign(w) * self.cruise_ang
+
+        self.v_out = self.cruise_lin
+        self.w_out = w
 
         #Reorient no linear move
         if (np.abs(self.error_x) < 0.02 and np.abs(self.error_y) < 0.02):

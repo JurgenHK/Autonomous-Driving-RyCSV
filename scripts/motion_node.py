@@ -49,7 +49,7 @@ if __name__ == "__main__":
     #Error suscriber
     error_vision = 0
     vision_error_sus = rospy.Subscriber('vision/error', Int32, error_callback)
-    list_error_vision = np.repeat(error_vision, 20)
+    list_error_vision = [error_vision] * 20
     #Node Loop
     while(not rospy.is_shutdown()):
         
@@ -57,7 +57,7 @@ if __name__ == "__main__":
         k_vision = rospy.get_param('/motion_node/k_vision')
         k_th = rospy.get_param('/motion_node/k_th')
         #k_vision = 0.01
-        x = 2
+        x = 0.8
         y = np.mean(list_error_vision)*(-1)*k_vision
         th = np.mean(list_error_vision)*(-1)*k_th
         goal = [x,y,th]
@@ -93,7 +93,9 @@ if __name__ == "__main__":
             goal = [x,y,th]
             kobuki_controller.set_goal(float(goal[0]),float(goal[1]),float(goal[2]))
  """
-            np.insert(list_error_vision[1:], list_error_vision.size-1, error_vision)
+            list_error_vision.append(error_vision)
+            list_error_vision = list_error_vision[1:]
+            print(list_error_vision)
             print("Este es el Goal: ")
             print(goal)
 
